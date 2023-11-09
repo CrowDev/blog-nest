@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Param, Body, Put } from '@nestjs/common';
+import { Controller, Get, Post, Param, Body, Put, Delete } from '@nestjs/common';
 import { BlogEntity } from '../../entities/Blog.entity';
 import { BlogDto, CreateBlogDto } from '../dto/BlogsDto.dto';
 import { BlogsService } from '../services/blogs.service';
@@ -32,5 +32,11 @@ export class BlogsController {
   ): Promise<BlogEntity> {
     const result = this.blogsService.update(Number(id), blogDto);
     return result;
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string): Promise<void> {
+    this.blogsService.remove(Number(id));
+    return;
   }
 }
