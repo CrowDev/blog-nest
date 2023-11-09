@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CategoryEntity } from 'src/entities/Category.entity';
 import { Repository } from 'typeorm';
-import { CreateCategoryDto } from '../dto/CategoriesDto.dto';
+import { CategoryDto, CreateCategoryDto } from '../dto/CategoriesDto.dto';
 
 @Injectable()
 export class CategoriesService {
@@ -29,6 +29,15 @@ export class CategoriesService {
     const result = await this.categoryEntityRepository.findOneOrFail({
       where: { id, deleted: false },
     });
+    return result;
+  }
+
+  async update(categoryDto: CategoryDto): Promise<CategoryEntity> {
+    const category = await this.categoryEntityRepository.findOneOrFail({
+      where: { id: categoryDto.id },
+    });
+    category.name = categoryDto.name;
+    const result = await this.categoryEntityRepository.save(category);
     return result;
   }
 }

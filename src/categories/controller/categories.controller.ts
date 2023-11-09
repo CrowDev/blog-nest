@@ -31,9 +31,10 @@ export class CategoriesController {
     return result;
   }
 
-  @Put(':id')
-  update(@Body() categoryDto: CategoryDto): string {
-    return 'This action updates a #${id} category';
+  @Put('edit')
+  update(@Body() categoryDto: CategoryDto): Promise<CategoryDto> {
+    const result = this.categoriesService.update(categoryDto);
+    return result;
   }
 
   @Delete(':id')
