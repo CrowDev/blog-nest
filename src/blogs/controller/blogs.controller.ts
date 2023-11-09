@@ -1,6 +1,6 @@
-import { Controller, Get, Post, Param, Body } from '@nestjs/common';
-import { Blog } from '../../entities/Blog.entity';
-import { CreateBlogDto } from '../dto/BlogsDto.dto';
+import { Controller, Get, Post, Param, Body, Put } from '@nestjs/common';
+import { BlogEntity } from '../../entities/Blog.entity';
+import { BlogDto, CreateBlogDto } from '../dto/BlogsDto.dto';
 import { BlogsService } from '../services/blogs.service';
 
 @Controller('blogs')
@@ -8,18 +8,29 @@ export class BlogsController {
   constructor(private blogsService: BlogsService) {}
 
   @Get('all')
-  findAll(): Blog[] {
-    return [];
+  findAll(): Promise<BlogEntity[]> {
+    const result = this.blogsService.findAll();
+    return result;
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Blog {
-    return new Blog();
+  findOne(@Param('id') id: string): Promise<BlogEntity> {
+    const result = this.blogsService.findOne(Number(id));
+    return result;
   }
 
   @Post('create')
-  create(@Body() createBlogDto: CreateBlogDto): Blog {
+  create(@Body() createBlogDto: CreateBlogDto): Promise<BlogEntity> {
     const result = this.blogsService.create(createBlogDto);
+    return result;
+  }
+
+  @Put(':id')
+  update(
+    @Body() blogDto: BlogDto,
+    @Param('id') id: string,
+  ): Promise<BlogEntity> {
+    const result = this.blogsService.update(Number(id), blogDto);
     return result;
   }
 }
