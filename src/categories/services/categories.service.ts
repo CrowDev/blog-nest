@@ -17,4 +17,11 @@ export class CategoriesService {
     const result = await this.categoryEntityRepository.save(newCategory);
     return result;
   }
+
+  async findAll(): Promise<CategoryEntity[]> {
+    const result = await this.categoryEntityRepository.find({
+      where: { deleted: false },
+    });
+    return result;
+  }
 }

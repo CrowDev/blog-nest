@@ -14,8 +14,9 @@ import { CategoriesService } from '../services/categories.service';
 export class CategoriesController {
   constructor(private categoriesService: CategoriesService) {}
   @Get('all')
-  findAll(): string {
-    return 'This action returns all categories';
+  findAll(): Promise<CategoryDto[]> {
+    const result = this.categoriesService.findAll();
+    return result;
   }
 
   @Get(':id')
