@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { CommentsService } from '../services/comments.service';
 import { CommentEntity } from '@/entities/Comment.entity';
+import { CommentDto, CreateComentDto } from '../dto/CommentsDto.dto';
 
 @Controller('comments')
 export class CommentsController {
@@ -19,22 +20,23 @@ export class CommentsController {
   }
 
   @Get(':id')
-  findOne(): string {
-    return 'This action returns a #${id} comment';
+  findOne(@Param('id') id: string): Promise<CommentEntity> {
+    return this.commentsService.findOne(Number(id));
   }
 
   @Post('create')
-  create(): string {
-    return 'This action adds a new comment';
+  create(@Body() commentDto: CreateComentDto): Promise<CommentEntity> {
+    return this.commentsService.create(commentDto);
   }
 
   @Put('edit')
-  update(): string {
-    return 'This action updates a #${id} comment';
+  update(@Body() commentDto: CommentDto): Promise<CommentEntity> {
+    return this.commentsService.update(commentDto);
   }
 
-  @Delete('delete')
-  delete(): string {
-    return 'This action removes a #${id} comment';
+  @Delete(':id')
+  delete(@Param('id') id: string): Promise<void> {
+    this.commentsService.delete(Number(id));
+    return;
   }
 }
