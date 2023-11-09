@@ -24,4 +24,11 @@ export class CategoriesService {
     });
     return result;
   }
+
+  async findOne(id: number): Promise<CategoryEntity> {
+    const result = await this.categoryEntityRepository.findOneOrFail({
+      where: { id, deleted: false },
+    });
+    return result;
+  }
 }

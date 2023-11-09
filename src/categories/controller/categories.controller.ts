@@ -20,8 +20,9 @@ export class CategoriesController {
   }
 
   @Get(':id')
-  findOne(@Param() id: string): string {
-    return 'This action returns a #${id} category';
+  findOne(@Param('id') id: string): Promise<CategoryDto> {
+    const result = this.categoriesService.findOne(Number(id));
+    return result;
   }
 
   @Post('create')
