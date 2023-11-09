@@ -16,6 +16,7 @@ export class BlogsService {
     newBlog.title = createBlogDto.title;
     newBlog.body = createBlogDto.body;
     newBlog.publicationDate = createBlogDto.publicationDate;
+    newBlog.categories = [...createBlogDto.categories];
     const result = await this.blogEntityRepository.save(newBlog);
     return result;
   }
@@ -23,6 +24,7 @@ export class BlogsService {
   async findAll(): Promise<BlogEntity[]> {
     const result = await this.blogEntityRepository.find({
       where: { deleted: false },
+      relations: ['categories'],
     });
     return result;
   }
@@ -31,6 +33,7 @@ export class BlogsService {
     try {
       const result = await this.blogEntityRepository.findOneOrFail({
         where: { id: id, deleted: false },
+        relations: ['categories'],
       });
       return result;
     } catch (error) {
