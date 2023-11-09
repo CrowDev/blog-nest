@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Param, Body, Put, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Param,
+  Body,
+  Put,
+  Delete,
+} from '@nestjs/common';
 import { BlogEntity } from '../../entities/Blog.entity';
 import { BlogDto, CreateBlogDto } from '../dto/BlogsDto.dto';
 import { BlogsService } from '../services/blogs.service';
@@ -15,8 +23,12 @@ export class BlogsController {
 
   @Get(':id')
   findOne(@Param('id') id: string): Promise<BlogEntity> {
-    const result = this.blogsService.findOne(Number(id));
-    return result;
+    try {
+      const result = this.blogsService.findOne(Number(id));
+      return result;
+    } catch (error) {
+      throw error;
+    }
   }
 
   @Post('create')
@@ -30,13 +42,21 @@ export class BlogsController {
     @Body() blogDto: BlogDto,
     @Param('id') id: string,
   ): Promise<BlogEntity> {
-    const result = this.blogsService.update(Number(id), blogDto);
-    return result;
+    try {
+      const result = this.blogsService.update(Number(id), blogDto);
+      return result;
+    } catch (error) {
+      throw error;
+    }
   }
 
   @Delete(':id')
   remove(@Param('id') id: string): Promise<void> {
-    this.blogsService.remove(Number(id));
-    return;
+    try {
+      this.blogsService.remove(Number(id));
+      return;
+    } catch (error) {
+      throw error;
+    }
   }
 }

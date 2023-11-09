@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { BlogEntity } from '../../entities/Blog.entity';
@@ -28,28 +28,40 @@ export class BlogsService {
   }
 
   async findOne(id: number): Promise<BlogEntity> {
-    const result = await this.blogEntityRepository.findOne({
-      where: { id: id, deleted: false },
-    });
-    return result;
+    try {
+      const result = await this.blogEntityRepository.findOneOrFail({
+        where: { id: id, deleted: false },
+      });
+      return result;
+    } catch (error) {
+      throw new NotFoundException('Not found');
+    }
   }
 
   async update(id: number, updateBlogDto: BlogDto): Promise<BlogEntity> {
-    const blog = await this.blogEntityRepository.findOne({
-      where: { id: id },
-    });
-    blog.title = updateBlogDto.title;
-    blog.body = updateBlogDto.body;
-    blog.publicationDate = updateBlogDto.publicationDate;
-    const result = await this.blogEntityRepository.save(blog);
-    return result;
+    try {
+      const blog = await this.blogEntityRepository.findOneOrFail({
+        where: { id: id },
+      });
+      blog.title = updateBlogDto.title;
+      blog.body = updateBlogDto.body;
+      blog.publicationDate = updateBlogDto.publicationDate;
+      const result = await this.blogEntityRepository.save(blog);
+      return result;
+    } catch (error) {
+      throw new NotFoundException('Not found');
+    }
   }
 
   async remove(id: number): Promise<void> {
-    const blog = await this.blogEntityRepository.findOne({
-      where: { id: id },
-    });
-    blog.deleted = true;
-    await this.blogEntityRepository.save(blog);
+    try {
+      const blog = await this.blogEntityRepository.findOneOrFail({
+        where: { id: id },
+      });
+      blog.deleted = true;
+      await this.blogEntityRepository.save(blog);
+    } catch (error) {
+      throw new NotFoundException('Not found');
+    }
   }
 }
