@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { BlogEntity } from '../../entities/Blog.entity';
-import { CreateBlogDto } from '../dto/BlogsDto.dto';
+import { BlogDto, CreateBlogDto } from '../dto/BlogsDto.dto';
 
 @Injectable()
 export class BlogsService {
@@ -32,7 +32,7 @@ export class BlogsService {
     return result;
   }
 
-  async update(id: number, updateBlogDto: CreateBlogDto): Promise<BlogEntity> {
+  async update(id: number, updateBlogDto: BlogDto): Promise<BlogEntity> {
     const blog = await this.blogEntityRepository.findOne({
       where: { id: id },
     });
