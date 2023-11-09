@@ -1,5 +1,11 @@
-import { Column, CreateDateColumn, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  CreateDateColumn,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
+@Entity('Comment')
 export class CommentEntity {
   @PrimaryGeneratedColumn()
   id: number;
