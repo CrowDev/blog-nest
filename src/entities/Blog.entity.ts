@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity()
-export class Blog {
+@Entity('Blog')
+export class BlogEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -11,6 +11,6 @@ export class Blog {
   @Column()
   body: string;
 
-  @Column({ default: new Date() })
+  @Column()
   publicationDate: Date;
 }
