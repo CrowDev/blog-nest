@@ -3,7 +3,9 @@ import {
   Column,
   CreateDateColumn,
   PrimaryGeneratedColumn,
+  ManyToOne,
 } from 'typeorm';
+import { BlogEntity } from './Blog.entity';
 
 @Entity('Comment')
 export class CommentEntity {
@@ -18,4 +20,7 @@ export class CommentEntity {
 
   @Column({ default: false })
   deleted: boolean;
+
+  @ManyToOne(() => BlogEntity, (blog) => blog.comments)
+  blog: BlogEntity;
 }

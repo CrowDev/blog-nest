@@ -4,8 +4,10 @@ import {
   PrimaryGeneratedColumn,
   ManyToMany,
   JoinTable,
+  OneToMany,
 } from 'typeorm';
 import { CategoryEntity } from './Category.entity';
+import { CommentEntity } from './Comment.entity';
 
 @Entity('Blog')
 export class BlogEntity {
@@ -27,4 +29,7 @@ export class BlogEntity {
   @ManyToMany(() => CategoryEntity)
   @JoinTable()
   categories: CategoryEntity[];
+
+  @OneToMany(() => CommentEntity, (comment) => comment.blog)
+  comments: CommentEntity[];
 }
