@@ -21,13 +21,15 @@ export class BlogsService {
   }
 
   async findAll(): Promise<BlogEntity[]> {
-    const result = await this.blogEntityRepository.find();
+    const result = await this.blogEntityRepository.find({
+      where: { deleted: false },
+    });
     return result;
   }
 
   async findOne(id: number): Promise<BlogEntity> {
     const result = await this.blogEntityRepository.findOne({
-      where: { id: id },
+      where: { id: id, deleted: false },
     });
     return result;
   }
@@ -41,5 +43,13 @@ export class BlogsService {
     blog.publicationDate = updateBlogDto.publicationDate;
     const result = await this.blogEntityRepository.save(blog);
     return result;
+  }
+
+  async remove(id: number): Promise<void> {
+    const blog = await this.blogEntityRepository.findOne({
+      where: { id: id },
+    });
+    blog.deleted = true;
+    await this.blogEntityRepository.save(blog);
   }
 }
