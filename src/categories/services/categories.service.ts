@@ -40,4 +40,12 @@ export class CategoriesService {
     const result = await this.categoryEntityRepository.save(category);
     return result;
   }
+
+  async delete(id: number): Promise<void> {
+    const category = await this.categoryEntityRepository.findOneOrFail({
+      where: { id },
+    });
+    category.deleted = true;
+    await this.categoryEntityRepository.save(category);
+  }
 }

@@ -38,7 +38,8 @@ export class CategoriesController {
   }
 
   @Delete(':id')
-  remove(@Param() id: string): string {
-    return 'This action removes a #${id} category';
+  remove(@Param('id') id: string): Promise<void> {
+    this.categoriesService.delete(Number(id));
+    return;
   }
 }
