@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CategoryEntity } from 'src/entities/Category.entity';
 import { Repository } from 'typeorm';
@@ -26,26 +26,38 @@ export class CategoriesService {
   }
 
   async findOne(id: number): Promise<CategoryEntity> {
-    const result = await this.categoryEntityRepository.findOneOrFail({
-      where: { id, deleted: false },
-    });
-    return result;
+    try {
+      const result = await this.categoryEntityRepository.findOneOrFail({
+        where: { id, deleted: false },
+      });
+      return result;
+    } catch (error) {
+      throw new NotFoundException('Not found');
+    }
   }
 
   async update(categoryDto: CategoryDto): Promise<CategoryEntity> {
-    const category = await this.categoryEntityRepository.findOneOrFail({
-      where: { id: categoryDto.id },
-    });
-    category.name = categoryDto.name;
-    const result = await this.categoryEntityRepository.save(category);
-    return result;
+    try {
+      const category = await this.categoryEntityRepository.findOneOrFail({
+        where: { id: categoryDto.id },
+      });
+      category.name = categoryDto.name;
+      const result = await this.categoryEntityRepository.save(category);
+      return result;
+    } catch (error) {
+      throw new NotFoundException('Not found');
+    }
   }
 
   async delete(id: number): Promise<void> {
-    const category = await this.categoryEntityRepository.findOneOrFail({
-      where: { id },
-    });
-    category.deleted = true;
-    await this.categoryEntityRepository.save(category);
+    try {
+      const category = await this.categoryEntityRepository.findOneOrFail({
+        where: { id },
+      });
+      category.deleted = true;
+      await this.categoryEntityRepository.save(category);
+    } catch (error) {
+      throw new NotFoundException('Not found');
+    }
   }
 }

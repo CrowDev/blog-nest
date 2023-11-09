@@ -21,8 +21,12 @@ export class CategoriesController {
 
   @Get(':id')
   findOne(@Param('id') id: string): Promise<CategoryDto> {
-    const result = this.categoriesService.findOne(Number(id));
-    return result;
+    try {
+      const result = this.categoriesService.findOne(Number(id));
+      return result;
+    } catch (error) {
+      throw error;
+    }
   }
 
   @Post('create')
@@ -33,13 +37,21 @@ export class CategoriesController {
 
   @Put('edit')
   update(@Body() categoryDto: CategoryDto): Promise<CategoryDto> {
-    const result = this.categoriesService.update(categoryDto);
-    return result;
+    try {
+      const result = this.categoriesService.update(categoryDto);
+      return result;
+    } catch (error) {
+      throw error;
+    }
   }
 
   @Delete(':id')
   remove(@Param('id') id: string): Promise<void> {
-    this.categoriesService.delete(Number(id));
-    return;
+    try {
+      this.categoriesService.delete(Number(id));
+      return;
+    } catch (error) {
+      throw error;
+    }
   }
 }
