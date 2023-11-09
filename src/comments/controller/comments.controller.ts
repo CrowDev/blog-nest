@@ -16,27 +16,47 @@ export class CommentsController {
   constructor(private commentsService: CommentsService) {}
   @Get('all')
   findAll(): Promise<CommentEntity[]> {
-    return this.commentsService.findAll();
+    try {
+      return this.commentsService.findAll();
+    } catch (error) {
+      throw error;
+    }
   }
 
   @Get(':id')
   findOne(@Param('id') id: string): Promise<CommentEntity> {
-    return this.commentsService.findOne(Number(id));
+    try {
+      return this.commentsService.findOne(Number(id));
+    } catch (error) {
+      throw error;
+    }
   }
 
   @Post('create')
   create(@Body() commentDto: CreateComentDto): Promise<CommentEntity> {
-    return this.commentsService.create(commentDto);
+    try {
+      return this.commentsService.create(commentDto);
+    } catch (error) {
+      throw error;
+    }
   }
 
   @Put('edit')
   update(@Body() commentDto: CommentDto): Promise<CommentEntity> {
-    return this.commentsService.update(commentDto);
+    try {
+      return this.commentsService.update(commentDto);
+    } catch (error) {
+      throw error;
+    }
   }
 
   @Delete(':id')
   delete(@Param('id') id: string): Promise<void> {
-    this.commentsService.delete(Number(id));
-    return;
+    try {
+      this.commentsService.delete(Number(id));
+      return;
+    } catch (error) {
+      throw error;
+    }
   }
 }

@@ -1,5 +1,5 @@
 import { CommentEntity } from '@/entities/Comment.entity';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CommentDto, CreateComentDto } from '../dto/CommentsDto.dto';
@@ -16,9 +16,13 @@ export class CommentsService {
   }
 
   async findOne(id: number): Promise<CommentEntity> {
-    return await this.commentsRepository.findOne({
-      where: { id, deleted: false },
-    });
+    try {
+      return await this.commentsRepository.findOneOrFail({
+        where: { id, deleted: false },
+      });
+    } catch (error) {
+      throw new NotFoundException(error);
+    }
   }
 
   async create(comment: CreateComentDto): Promise<CommentEntity> {
@@ -26,10 +30,14 @@ export class CommentsService {
   }
 
   async update(comment: CommentDto): Promise<CommentEntity> {
-    await this.commentsRepository.update(comment.id, comment);
-    return await this.commentsRepository.findOne({
-      where: { id: comment.id, deleted: false },
-    });
+    try {
+      await this.commentsRepository.update(comment.id, comment);
+      return await this.commentsRepository.findOneOrFail({
+        where: { id: comment.id, deleted: false },
+      });
+    } catch (error) {
+      throw new NotFoundException(error);
+    }
   }
 
   async delete(id: number): Promise<void> {
