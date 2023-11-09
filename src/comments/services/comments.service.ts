@@ -12,13 +12,17 @@ export class CommentsService {
   ) {}
 
   async findAll(): Promise<CommentEntity[]> {
-    return await this.commentsRepository.find();
+    return await this.commentsRepository.find({
+      where: { deleted: false },
+      relations: ['blog'],
+    });
   }
 
   async findOne(id: number): Promise<CommentEntity> {
     try {
       return await this.commentsRepository.findOneOrFail({
         where: { id, deleted: false },
+        relations: ['blog'],
       });
     } catch (error) {
       throw new NotFoundException(error);

@@ -24,7 +24,7 @@ export class BlogsService {
   async findAll(): Promise<BlogEntity[]> {
     const result = await this.blogEntityRepository.find({
       where: { deleted: false },
-      relations: ['categories'],
+      relations: ['categories', 'comments'],
     });
     return result;
   }
@@ -33,7 +33,7 @@ export class BlogsService {
     try {
       const result = await this.blogEntityRepository.findOneOrFail({
         where: { id: id, deleted: false },
-        relations: ['categories'],
+        relations: ['categories', 'comments'],
       });
       return result;
     } catch (error) {
