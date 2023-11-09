@@ -8,13 +8,14 @@ import {
   Body,
 } from '@nestjs/common';
 import { CommentsService } from '../services/comments.service';
+import { CommentEntity } from '@/entities/Comment.entity';
 
 @Controller('comments')
 export class CommentsController {
   constructor(private commentsService: CommentsService) {}
   @Get('all')
-  findAll(): string {
-    return 'This action returns all comments';
+  findAll(): Promise<CommentEntity[]> {
+    return this.commentsService.findAll();
   }
 
   @Get(':id')
