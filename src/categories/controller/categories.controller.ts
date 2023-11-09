@@ -8,9 +8,11 @@ import {
   Param,
 } from '@nestjs/common';
 import { CategoryDto, CreateCategoryDto } from '../dto/CategoriesDto.dto';
+import { CategoriesService } from '../services/categories.service';
 
 @Controller('categories')
 export class CategoriesController {
+  constructor(private categoriesService: CategoriesService) {}
   @Get('all')
   findAll(): string {
     return 'This action returns all categories';
@@ -22,8 +24,9 @@ export class CategoriesController {
   }
 
   @Post('create')
-  create(@Body() categoryDto: CreateCategoryDto): string {
-    return 'This action adds a new category';
+  create(@Body() categoryDto: CreateCategoryDto): Promise<CategoryDto> {
+    const result = this.categoriesService.create(categoryDto);
+    return result;
   }
 
   @Put(':id')
