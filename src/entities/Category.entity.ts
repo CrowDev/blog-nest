@@ -7,4 +7,7 @@ export class CategoryEntity {
 
   @Column()
   name: string;
+
+  @Column({ default: false })
+  deleted: boolean;
 }
