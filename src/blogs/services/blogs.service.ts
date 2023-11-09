@@ -49,6 +49,7 @@ export class BlogsService {
       blog.title = updateBlogDto.title;
       blog.body = updateBlogDto.body;
       blog.publicationDate = updateBlogDto.publicationDate;
+      blog.categories = [...updateBlogDto.categories];
       const result = await this.blogEntityRepository.save(blog);
       return result;
     } catch (error) {

@@ -1,12 +1,11 @@
 import { CategoryEntity } from 'src/entities/Category.entity';
-import { CategoryDto } from '../../categories/dto/CategoriesDto.dto';
 
 export class BlogDto {
   id: number;
   title: string;
   body: string;
   publicationDate: Date;
-  categories: CategoryDto[];
+  categories: CategoryEntity[];
 }
 
 export class CreateBlogDto {
