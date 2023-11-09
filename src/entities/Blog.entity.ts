@@ -1,4 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
+import { CategoryEntity } from './Category.entity';
 
 @Entity('Blog')
 export class BlogEntity {
@@ -16,4 +23,8 @@ export class BlogEntity {
 
   @Column({ default: false })
   deleted: boolean;
+
+  @ManyToMany(() => CategoryEntity)
+  @JoinTable()
+  categories: CategoryEntity[];
 }
