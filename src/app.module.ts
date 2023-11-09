@@ -8,8 +8,8 @@ import { BlogsModule } from './blogs/blogs.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'better-sqlite3',
-      database: 'db.sqlite',
-      entities: [],
+      database: 'blog.db',
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
     BlogsModule,
