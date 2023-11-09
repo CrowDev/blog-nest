@@ -13,4 +13,7 @@ export class BlogEntity {
 
   @Column()
   publicationDate: Date;
+
+  @Column({ default: false })
+  deleted: boolean;
 }
