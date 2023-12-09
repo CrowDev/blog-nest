@@ -13,7 +13,7 @@ import { CategoriesService } from '../services/categories.service';
 @Controller('categories')
 export class CategoriesController {
   constructor(private categoriesService: CategoriesService) {}
-  @Get('all')
+  @Get()
   findAll(): Promise<CategoryDto[]> {
     const result = this.categoriesService.findAll();
     return result;
@@ -29,7 +29,7 @@ export class CategoriesController {
     }
   }
 
-  @Post('create')
+  @Post()
   create(@Body() categoryDto: CreateCategoryDto): Promise<CategoryDto> {
     const result = this.categoriesService.create(categoryDto);
     return result;
