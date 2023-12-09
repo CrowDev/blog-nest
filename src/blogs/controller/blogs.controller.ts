@@ -15,7 +15,7 @@ import { BlogsService } from '../services/blogs.service';
 export class BlogsController {
   constructor(private blogsService: BlogsService) {}
 
-  @Get('all')
+  @Get()
   findAll(): Promise<BlogEntity[]> {
     const result = this.blogsService.findAll();
     return result;
@@ -31,7 +31,7 @@ export class BlogsController {
     }
   }
 
-  @Post('create')
+  @Post()
   create(@Body() createBlogDto: CreateBlogDto): Promise<BlogEntity> {
     const result = this.blogsService.create(createBlogDto);
     return result;
