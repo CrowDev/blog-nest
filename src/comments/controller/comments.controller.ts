@@ -14,7 +14,7 @@ import { CommentDto, CreateComentDto } from '../dto/CommentsDto.dto';
 @Controller('comments')
 export class CommentsController {
   constructor(private commentsService: CommentsService) {}
-  @Get('all')
+  @Get()
   findAll(): Promise<CommentEntity[]> {
     try {
       return this.commentsService.findAll();
@@ -32,7 +32,7 @@ export class CommentsController {
     }
   }
 
-  @Post('create')
+  @Post()
   create(@Body() commentDto: CreateComentDto): Promise<CommentEntity> {
     try {
       return this.commentsService.create(commentDto);
